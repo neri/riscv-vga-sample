@@ -1,0 +1,4 @@
+[build]
+# target = "riscv32imac-unknown-none-elf"
+target = "riscv64gc-unknown-none-elf"
+rustflags = ["-C", "link-args=-Tsrc/riscv.lds"]
