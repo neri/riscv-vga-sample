@@ -32,12 +32,15 @@ fn panic(_info: &PanicInfo) -> ! {
 #[macro_export]
 macro_rules! arch_entry {
     ($start:ident) => {
-        use core::arch::{asm, global_asm};
+        use core::{
+            arch::{asm, global_asm},
+            ffi::c_void,
+        };
 
         extern "C" {
-            static __bss: *mut u8;
-            static __bss_end: *const u8;
-            static __stack_top: *mut u8;
+            static __bss: c_void;
+            static __bss_end: c_void;
+            static __stack_top: c_void;
         }
 
         global_asm!(
@@ -54,7 +57,9 @@ macro_rules! arch_entry {
         #[no_mangle]
         fn _arch_riscv_start(_hartid: usize, _dtb: usize) -> ! {
             unsafe {
-                __bss.write_bytes(0, __bss_end as usize - __bss as usize);
+                let bss = &__bss as *const _ as *mut u8;
+                let bss_end = &__bss_end as *const _;
+                bss.write_bytes(0, bss_end as usize - bss as usize);
             };
 
             $start();

@@ -14,7 +14,6 @@ use kernel::*;
 
 arch_entry!(start);
 
-#[no_mangle]
 fn start() -> ! {
     let fb_base = 0x5000_0000 as *mut u8;
 
