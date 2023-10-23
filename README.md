@@ -15,11 +15,11 @@
 ## HOW TO BUILD
 
 ```
-$ make
+$ cargo build --release
 ```
 
 ## HOW TO RUN
 
 ```
-$ make install run
+$ cargo run --release
 ```
